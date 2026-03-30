@@ -7,8 +7,8 @@ from generate_html import generate_page, generate_page_recursive
 from config import SITE_DIRECTORY, TEMPLATE_FILE, CONTENT_DIRECTORY
 
 def main():
-    if len(sys.argv) > 0:
-        base_path = sys.argv[0]
+    if len(sys.argv) > 1:
+        base_path = sys.argv[1]
     else:
         base_path = "/"
     deploy_site()
