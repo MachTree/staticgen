@@ -43,50 +43,40 @@ def block_to_html_node(block):
         
 def process_heading_block(block):
     sections = block.split(" ", 1)
-    block_node = ParentNode(f"h{len(sections[0])}", [])
     children = text_to_children(sections[1].replace("\n", " "))
-    block_node.children.extend(children)
-    return block_node
+    return ParentNode(f"h{len(sections[0])}", children)
 
 def process_code_block(block):
-    block_node = ParentNode("pre", [])
     code_text = TextNode(block[4:-3], TextType.CODE)
-    block_node.children.append(text_node_to_html_node(code_text))
-    return block_node
+    return ParentNode("pre", [text_node_to_html_node(code_text)])
 
 def process_quote_block(block):
-    block_node = ParentNode("blockquote", [])
+    content = []
     lines = block.split("\n")
     for line in lines:
-        children = text_to_children(line[1:].lstrip())
-        block_node.children.extend(children)
-    return block_node
+        content.append(line[1:].strip())
+    children = text_to_children(" ".join(content))
+    return ParentNode("blockquote", children)
 
 def process_unordered_list_block(block):
-    block_node = ParentNode("ul", [])
+    items = []
     lines = block.split("\n")
     for line in lines:
-        line_item = ParentNode("li", [])
         children = text_to_children(line[2:].strip())
-        line_item.children.extend(children)
-        block_node.children.append(line_item)
-    return block_node
+        items.append(ParentNode("li", children))
+    return ParentNode("ul", items)
 
 def process_ordered_list_block(block):
-    block_node = ParentNode("ol", [])
+    items = []
     lines = block.split("\n")
     for line in lines:
-        line_item = ParentNode("li", [])
         children = text_to_children(line.split(".", 1)[1].strip())
-        line_item.children.extend(children)
-        block_node.children.append(line_item)
-    return block_node
+        items.append(ParentNode("li", children))
+    return ParentNode("ol", items)
 
 def process_paragraph_block(block):
-    block_node = ParentNode("p", [])
     children = text_to_children(block.replace("\n", " "))
-    block_node.children.extend(children)
-    return block_node
+    return ParentNode("p", children)
 
 def text_to_children(text):
     textnodes = text_to_textnodes(text)

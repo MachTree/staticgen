@@ -75,7 +75,7 @@ This is another paragraph with _italic_ text and `code` here
             "<div><p>This is a <b>bolded</b> paragraph preceeding a list of items</p><ol><li>this item</li><li><b>that item</b></li><li><i>the other item</i></li><li><b>odds</b> and <i>ends</i> and <a href=\"https://www.google.com\">whatnot</a></li></ol><p>This is another paragraph with <i>italic</i> text and <code>code</code> here</p></div>"
         )
 
-    def test_ordered_list(self):
+    def test_quote_block(self):
         md = """
 This is a **bolded** paragraph preceeding a block quote
 
@@ -92,6 +92,21 @@ This is another paragraph with _italic_ text and `code` here
         self.assertEqual(
             html,
             "<div><p>This is a <b>bolded</b> paragraph preceeding a block quote</p><blockquote>\"<b>Ask not what your country can do for you, ask what you can do for your country</b>\" - JFK\"I speak <i>softly</i>, but carry a <b>big</b> stick\" - Teddy Roosevelt\"apex predator of grug is complexity\" - Grug</blockquote><p>This is another paragraph with <i>italic</i> text and <code>code</code> here</p></div>"
+        )
+    
+    def test_multiple_block_types(self):
+        md = """
+# Tolkien Fan Club
+
+![JRR Tolkien sitting](/images/tolkien.png)
+
+Here's the deal, **I like Tolkien**.
+"""
+        node = markdown_to_html_node(md)
+        html = node.to_html()
+        self.assertEqual(
+            html,
+            '<div><h1>Tolkien Fan Club</h1><p><img src="/images/tolkien.png" alt="JRR Tolkien sitting"></img></p><p>Here\'s the deal, <b>I like Tolkien</b>.</p></div>'
         )
 
 
