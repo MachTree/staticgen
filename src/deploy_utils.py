@@ -1,8 +1,7 @@
 import os
 import shutil
 
-SITE_DIRECTORY = "./public"
-STATIC_DIRECTORY = "./static"
+from config import STATIC_DIRECTORY, SITE_DIRECTORY
 
 def deploy_site():
     print("Deleting site directory")
